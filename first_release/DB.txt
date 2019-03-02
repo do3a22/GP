@@ -1,0 +1,19 @@
+Create database using mysql DB
+
+**don't forget to install mysql**
+
+First
+1.Type in CMD mysql -u root -p
+2.Type: your password
+3.Type: create database oti;
+
+
+Second 
+1.Navigate to the project repository through CMD
+2.Type: python
+3.Type: from audio_storing import db
+4.Type: db.create_all()
+
+NOTE:-
+-open audio_storing.py file with any text editor
+-Edit this line(put your database password instead of "ur_mysql_password" ):" app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:ur_mysql_password@localhost/oti'  "
