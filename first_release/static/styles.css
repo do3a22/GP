@@ -1,0 +1,103 @@
+*{
+    margin: 5px;
+    padding: 0;
+}
+body {
+    font: 14pt Lato, sans-serif;
+    align-items: center;
+    background: #1F0F1A;
+
+    margin: 0 0;
+    color: white;
+}
+
+p {
+    font: 11px  ;
+}
+
+#wavedisplay {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff;
+    overflow-y: scroll;
+    min-width: 35%;
+    height: 40vh;
+    box-shadow: 0px 0px 10px #66EBE1;
+}
+ 
+
+#controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 20%;
+    width: 100%;
+}
+
+.record-count{
+    color: #1F0F1A;
+    font-size: 12px;
+}
+#record {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid #FFFFFF;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 300;
+    color: #FFFFFF;
+    text-align: center;
+    transition: all 0.2s;
+    background: #1F0F1A;
+}
+
+
+#record.recording {
+
+    background: white;
+    color:#1F0F1A;
+  
+
+}
+
+#save,
+#save img {
+    height: 10vh;
+}
+
+#save {
+    opacity: 0.25;
+}
+
+#save[download] {
+    opacity: 1;
+}
+
+#viz {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@media (orientation: landscape) {
+    body {
+        flex-direction: row;
+    }
+
+    #controls {
+        flex-direction: column;
+        height: 100%;
+        width: 10%;
+    }
+
+    #viz {
+        height: 100%;
+        width: 90%;
+    }
+}
