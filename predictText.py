@@ -6,13 +6,13 @@ from timeit import default_timer as timer
 import numpy as np
 import subprocess
 import shlex
-
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
 try:
     from shhlex import quote
 except ImportError:
     from pipes import quote
+
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 BEAM_WIDTH = 500
 
