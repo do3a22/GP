@@ -76,8 +76,4 @@ lmFile = 'models/lm.binary'
 trieFile = 'models/trie'
 
 ds = load_model(modelFile, alphabetFile, lmFile, trieFile)
-
-
 recognized = predict(wavFile, ds)
-with open('output/text.txt', 'w') as f:
-    f.write(recognized)
