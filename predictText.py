@@ -2,7 +2,6 @@ import os
 import sys
 import wave
 from deepspeech import Model
-from timeit import default_timer as timer
 import numpy as np
 import subprocess
 import shlex
@@ -11,8 +10,8 @@ try:
 except ImportError:
     from pipes import quote
 
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 
 BEAM_WIDTH = 500
 
@@ -40,17 +39,16 @@ def convert_samplerate(audio_path):
 
     return 16000, np.frombuffer(output, np.int16)
 
-
-
-def predict(input_wav_file, model, alphabet, LM = None, LMtrie = None):
-
-    print('loading model..', file=sys.stderr)
-    model_load_start = timer()
-    ds = Model(model, N_FEATURES, N_CONTEXT, alphabet, BEAM_WIDTH)
+def load_model(model,  alphabet, LM = None, LMtrie = None):
+    print('loading model..')
+    modelInstance = Model(model, N_FEATURES, N_CONTEXT, alphabet, BEAM_WIDTH)
     if ((LM != None) and (LMtrie != None)):
-        ds.enableDecoderWithLM(alphabet, LM, LMtrie, LM_ALPHA, LM_BETA)
-    model_load_end = timer() - model_load_start
-    print('Model loaded in {:.3}s.'.format(model_load_end), file=sys.stderr)
+        modelInstance.enableDecoderWithLM(alphabet, LM, LMtrie, LM_ALPHA, LM_BETA)
+    print('Model loaded !')
+    return modelInstance
+
+
+def predict(input_wav_file, ds):
 
     fin = wave.open(input_wav_file, 'rb')
     fs = fin.getframerate()
@@ -63,13 +61,9 @@ def predict(input_wav_file, model, alphabet, LM = None, LMtrie = None):
     audio_length = fin.getnframes() * (1/16000)
     fin.close()
 
-    print('Running inference..', file=sys.stderr)
-    inference_start = timer()
+    print('Running inference..')
     output = ds.stt(audio, fs)
-    inference_end = timer() - inference_start
-    print('Inference took %0.3fs for %0.3fs audio file.' % (inference_end, audio_length), file=sys.stderr)
-    print('Total time: %0.3fs' % (model_load_end + inference_end), file=sys.stderr)
-    print('Output text: ' + output, file=sys.stderr)
+    print('Output text: ' + output)
 
     return output
 
@@ -81,7 +75,9 @@ alphabetFile = 'models/alphabet.txt'
 lmFile = 'models/lm.binary'
 trieFile = 'models/trie'
 
+ds = load_model(modelFile, alphabetFile, lmFile, trieFile)
 
-recognized = predict(wavFile, modelFile, alphabetFile, lmFile, trieFile)
+
+recognized = predict(wavFile, ds)
 with open('output/text.txt', 'w') as f:
     f.write(recognized)
