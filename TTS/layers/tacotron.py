@@ -1,6 +1,7 @@
 # coding: utf-8
+import torch
 from .attention import AttentionRNNCell
-
+from torch import nn
 
 class Prenet(nn.Module):
     r""" Prenet as explained at https://arxiv.org/abs/1703.10135.
