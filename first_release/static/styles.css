@@ -12,7 +12,7 @@ body {
 }
 
 p {
-    font: 11px  ;
+font: 11px  ;
 }
 
 #wavedisplay {
@@ -35,6 +35,14 @@ p {
     width: 100%;
 }
 
+#textfiles{
+    
+    color:black;
+    font: 12pt Lato, sans-serif;
+    padding : 10px;
+    margin: 10px;
+    
+}
 .record-count{
     color: #1F0F1A;
     font-size: 12px;
