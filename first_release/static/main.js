@@ -11,12 +11,28 @@ var socketio = io.connect(location.origin + '/audio', {
     transports: ['websocket']
 });
 
-socketio.on('add-wavefile', function (url) {
+var text ; 
+//socketio.on('add-wavefile', function (url) {
+//    // add new recording to page
+//    audio = document.createElement('p');
+//    audio.innerHTML = '<audio autoplay=true; src="' + url + '" controls>';
+//    document.getElementById('wavefiles').appendChild(audio);
+//});
+
+socketio.on('textDone', function (socketText) {
     // add new recording to page
-    audio = document.createElement('p');
-    audio.innerHTML = '<audio src="' + url + '" controls>';
-    document.getElementById('wavefiles').appendChild(audio);
+    text = document.createElement('p');
+    text.innerHTML = socketText;
+    document.getElementById('textfiles').appendChild(text);
+    socketio.emit('TextToSpeech');
 });
+
+socketio.on('TTS', function (path) {
+    var speech = document.createElement('p');
+    speech.innerHTML = '<audio src="' + path + '" controls>';
+    document.getElementById('wavefiles').appendChild(speech);
+});
+
 
 function toggleRecording(e) {
     if (e.classList.contains('recording')) {
