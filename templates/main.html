@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+   
+</head>
+
+<body>
+    <div id="viz">
+        <h1> Online Interview Training</h1>
+        <p> Instructions : Start the interview by clicking the button below and re-click "Stop" after finishing every sentence .</p>
+        <img src="/static/interview.png">
+
+        <div id="controls">
+            <button id="record" type="button" onclick="toggleRecording(this);">Speak !</button>
+        </div>
+        <div id="wavedisplay">
+            <div id="wavefiles">
+            </div>
+            <div id="textfiles">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+
+</html>
