@@ -3,6 +3,7 @@ from parselmouth.praat import call
 import numpy as np
 from report_dict import voice_report_dict
 
+
 def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
     #features = np.array([])
 
@@ -85,5 +86,3 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
                         jitter, shimmer,
                         unvoiced, breaks, maxDurPause, avgDurPause])
     return Features
-
-print(extract_prosodic("P1.wav"))
