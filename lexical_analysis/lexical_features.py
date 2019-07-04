@@ -1,6 +1,7 @@
 import spacy
 import re
 
+
 def lexical(text, duration=10):
     categories = ['i', 'we', 'they', 'DET', 'VERB', 'ADV',
                     'prep', 'conj', 'neg', 'NUM']
