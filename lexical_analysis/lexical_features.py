@@ -3,7 +3,7 @@ import re
 
 def lexical(text, duration=10):
     categories = ['i', 'we', 'they', 'DET', 'VERB', 'ADV',
-                    'prep', 'conj', 'neg', 'PDT', 'NUM']
+                    'prep', 'conj', 'neg', 'NUM']
     features_dict = {name:0 for name in categories}
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(text)
