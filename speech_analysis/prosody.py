@@ -4,7 +4,7 @@ import numpy as np
 from report_dict import voice_report_dict
 
 def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
-    features = np.array([])
+    #features = np.array([])
 
     snd = parselmouth.Sound(audio_file)
     #snd = call(snd, "Remove noise", 0, 0, 0.025, 80, 10000, 40, "Spectral subtraction")
@@ -12,7 +12,7 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
 
     spec = snd.to_spectrum()
     energy = spec.get_band_energy(0, 10000)
-    features = np.append(features, energy)
+    #features = np.append(features, energy)
 
     pitch = call(snd, "To Pitch", 0, 75, 600)
     f0mean = call(pitch, "Get mean", start_sec, end_sec, "Hertz")
@@ -20,7 +20,7 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
     f0max = call(pitch, "Get maximum", start_sec, end_sec, "Hertz", "Parabolic")
     f0range = f0max - f0min
     f0sd = call(pitch, "Get standard deviation", start_sec, end_sec, "Hertz")
-    features = np.append(features, [f0mean, f0min, f0max, f0range, f0sd])
+    #features = np.append(features, [f0mean, f0min, f0max, f0range, f0sd])
 
     intensity = call(snd, "To Intensity", 50, 0, "yes")
     intens_min = call(intensity, "Get minimum", start_sec, end_sec, "Parabolic")
@@ -28,7 +28,7 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
     intense_sd = call(intensity, "Get standard deviation", start_sec, end_sec)
     intense_mean = call(intensity, "Get mean", start_sec, end_sec, "energy")
     intens_range = intens_max - intens_min
-    features = np.append(features, [intense_mean, intens_min, intens_max, intens_range, intense_sd])
+    #features = np.append(features, [intense_mean, intens_max, intens_range, intense_sd])
 
     formant = call(snd, "To Formant (burg)", 0, 3, 5500, 0.025, 50)
     f1mean = call(formant, "Get mean", 1, 0, 0, "hertz")
@@ -48,18 +48,18 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
     f3min = call(formant, "Get minimum", 3, 0, 0, "hertz", "Parabolic")
     f3max = call(formant, "Get maximum", 3, 0, 0, "hertz", "Parabolic")
     f3bw = f3max - f3min
-    features = np.append(features, [f1mean, f2mean, f3mean, f1sd, f2sd, f3sd, f1bw, f2bw, f3bw, f2meanf1, f3meanf1, f2sdf1, f3sdf1])
+    #features = np.append(features, [f1mean, f2mean, f3mean, f1sd, f2sd, f3sd, f1bw, f2bw, f3bw, f2meanf1, f3meanf1, f2sdf1, f3sdf1])
 
     pp = call(snd, "To PointProcess (periodic, cc)", 50, 600)
     voice_report_str = parselmouth.praat.call([snd, pitch, pp], "Voice report", 0.0, 0.0, 50, 600, 1.3, 1.6, 0.03, 0.45)
     rep_dict = voice_report_dict(voice_report_str)
     jitter = rep_dict['Jitter (local)']
     shimmer = rep_dict['Shimmer (local)']
-    features = np.append(features, [jitter, shimmer])
+    #features = np.append(features, [jitter, shimmer])
 
     breaks = rep_dict['Degree of voice breaks']
     unvoiced = rep_dict['Fraction of locally unvoiced frames']
-    features = np.append(features, [duration, unvoiced, breaks])
+    #features = np.append(features, [duration, unvoiced, breaks])
 
     allDurPause = 0
     avgDurPause = 0
@@ -77,8 +77,13 @@ def extract_prosodic(audio_file, start_sec = 0.0, end_sec = 0.0):
             count = count + 1
             allDurPause = allDurPause + en-st
     avgDurPause = allDurPause / count
-    features = np.append(features, [maxDurPause, avgDurPause, allDurPause])
-
-    return features
+    #features = np.append(features, [maxDurPause, avgDurPause, allDurPause])
+    Features = np.array([duration, energy, f0min, f0max, f0mean, f0sd, f0range,
+                        intens_max, intense_mean, intense_sd, intens_range,
+                        f1mean, f2mean, f3mean,
+                        f2meanf1, f3meanf1, f1sd, f2sd, f3sd, f2sdf1,
+                        jitter, shimmer,
+                        unvoiced, breaks, maxDurPause, avgDurPause])
+    return Features
 
 print(extract_prosodic("P1.wav"))
